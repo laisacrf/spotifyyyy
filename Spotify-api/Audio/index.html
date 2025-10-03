@@ -1,569 +1,321 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Clone Spotify</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+<head>
+<meta charset="UTF-8">
+<title>Spotify Clone - Laisa & Belle</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: "Montserrat", sans-serif;
-      }
-      body {
-        background: #121212;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: #121212;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-      /* Layout */
-      .content-wrapper {
-        display: flex;
-        flex: 1;
-      }
-      .sidebar {
-        width: 250px;
-        background: #000;
-        padding: 30px 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-      }
-      .sidebar h2 {
-        color: #1db954;
-        font-weight: 900;
-        font-size: 28px;
-        margin-bottom: 40px;
-        text-align: center;
-        letter-spacing: 2px;
-      }
-      .btn {
-        background: transparent;
-        border: none;
-        color: #b3b3b3;
-        font-size: 16px;
-        padding: 12px 0;
-        cursor: pointer;
-        text-align: left;
-        transition: all 0.3s;
-        border-radius: 8px;
-      }
-      .btn:hover,
-      .btn.active {
-        color: #fff;
-        background: rgba(29, 185, 84, 0.2);
-        font-weight: 700;
-        padding-left: 15px;
-      }
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: #000;
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  border-radius: 0 20px 20px 0;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.6);
+  position: fixed;
+  height: 100vh;
+}
+.sidebar-header { display: flex; align-items: center; gap: 12px; }
+.sidebar-header img { width: 36px; height: 36px; }
+.sidebar-header h2 { font-size: 22px; color: #1db954; font-weight: 700; }
+.nav-links { display: flex; flex-direction: column; gap: 12px; margin-top: 30px;}
+.nav-links .btn {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 15px; color: #b3b3b3; padding: 12px 15px;
+  border-radius: 8px; font-weight: 600; text-decoration: none;
+  transition: all 0.3s;
+}
+.nav-links .btn:hover,
+.nav-links .btn.active { background: rgba(29,185,84,0.2); color:#fff; transform: translateX(6px); }
 
-      /* Main */
-      .main {
-        flex: 1;
-        padding: 40px 50px 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
-      }
-      .main-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-      }
-      .section-title {
-        font-size: 32px;
-        font-weight: 700;
-        color: #fff;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-      }
-      .search-box {
-        width: 300px;
-      }
-      .search-box input {
-        width: 100%;
-        padding: 12px 15px;
-        border-radius: 25px;
-        border: none;
-        outline: none;
-        font-size: 14px;
-        background: #1e1e1e;
-        color: #fff;
-        transition: all 0.3s;
-      }
-      .search-box input::placeholder {
-        color: #aaa;
-      }
-      .search-box input:focus {
-        background: #1db954;
-        color: #000;
-      }
+/* Main content */
+.main {
+  margin-left: 240px;
+  flex: 1;
+  padding: 25px 30px;
+  padding-bottom: 220px;
+}
+.section-title {
+  font-size: 36px; font-weight: 800; margin: 25px 0;
+  color: #fff; letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(29,185,84,0.6);
+}
 
-      /* Artistas em círculo */
-      .artists-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 20px;
-      }
-      .artist-card {
-        background: #181818;
-        border-radius: 50%;
-        padding: 5px;
-        cursor: pointer;
-        transition: transform 0.3s, box-shadow 0.3s;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-      .artist-card:hover {
-        transform: scale(1.08);
-        box-shadow: 0 10px 20px rgba(29, 185, 84, 0.6);
-      }
-      .artist-image {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-bottom: 8px;
-        border: none;
-      }
-      .artist-name {
-        font-size: 14px;
-        font-weight: 700;
-        text-align: center;
-        color: #fff;
-      }
+/* Grid artistas */
+.grid-artists {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 30px;
+  justify-items: center;
+  width: calc(100% - 30px);
+  margin-bottom: 50px;
+}
+.artist-card {
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.artist-card:hover { transform: scale(1.08); box-shadow: 0 12px 25px rgba(29,185,84,0.6); }
+.artist-image { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; }
+.artist-name { font-weight: 700; font-size: 18px; color: #fff; text-align: center; }
 
-      /* Música quadrada moderna em grid */
-      .albums-section {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-      .albums-title {
-        font-size: 32px;
-        font-weight: 700;
-        color: #fff;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-bottom: 20px;
-      }
+/* Grid músicas */
+.grid-musics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
+  justify-items: center;
+  width: calc(100% - 30px);
+  margin-bottom: 50px;
+}
+.music-card {
+  background: #181818;
+  border-radius: 15px;
+  padding: 15px;
+  width: 220px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.music-card:hover { transform: scale(1.05); box-shadow: 0 12px 25px rgba(29,185,84,0.6); }
+.music-image { width: 100%; height: 220px; border-radius: 12px; object-fit: cover; margin-bottom: 12px; }
+.music-name { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 12px; text-shadow: 0 0 5px rgba(0,255,0,0.3);}
+.music-actions { display: flex; justify-content: center; gap: 20px; }
+.music-actions button {
+  background: none; border: none; color: #b3b3b3; font-size: 24px; cursor: pointer; transition: all 0.3s;
+}
+.music-actions button.active { color: #1DB954; transform: scale(1.3); }
 
-      .music-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 25px;
-      }
+/* Player fixo - moderno e clean */
+#player {
+  position: fixed; bottom: 0; left: 240px; right: 0;
+  background: #181818; padding: 20px 30px;
+  display: flex; align-items: center; gap: 20px;
+  box-shadow: 0 -6px 25px rgba(0,0,0,0.8); display: none; z-index: 10;
+  border-top: 1px solid #282828;
+  border-radius: 12px 12px 0 0;
+}
+#player img { width: 70px; height: 70px; border-radius: 10px; object-fit: cover; }
+#playerInfo { flex: 1; font-size: 18px; font-weight: 700; }
+#playerControls { display: flex; gap: 20px; align-items: center; }
+#playerControls button {
+  background: none; border: none; font-size: 28px; cursor: pointer;
+  color: #b3b3b3; transition: all 0.3s;
+}
+#playerControls button:hover { color: #1DB954; transform: scale(1.2); }
 
-      /* Música card */
-      .music-card {
-        background: #181818;
-        border-radius: 12px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        transition: transform 0.3s, box-shadow 0.3s;
-        padding: 15px;
-        cursor: pointer;
-      }
-      .music-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 25px rgba(29, 185, 84, 0.7);
-      }
-      .music-image {
-        width: 200px;
-        height: 200px;
-        border-radius: 12px;
-        object-fit: cover;
-        margin-bottom: 12px;
-      }
-      .music-name {
-        font-size: 18px;
-        font-weight: 700;
-        text-align: center;
-        color: #fff;
-        margin-bottom: 8px;
-      }
-      .music-actions {
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-        width: 100%;
-      }
-      .music-actions button {
-        background: transparent;
-        border: none;
-        color: #1db954;
-        font-size: 18px;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .music-actions button:hover {
-        color: #fff;
-      }
+/* Barra de progresso clean */
+#progressContainer {
+  flex: 2; height: 6px; background: #282828;
+  border-radius: 8px; cursor: pointer; position: relative;
+  overflow: hidden;
+  margin-left: 20px;
+}
+#progressBar {
+  height: 100%;
+  background: linear-gradient(90deg,#1DB954,#00FFAA);
+  width: 0%; border-radius: 8px;
+  transition: width 0.2s;
+}
 
-      /* Player entre músicas e rodapé */
-      .player {
-        height: 90px;
-        background: #181818;
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        padding: 0 25px;
-        box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.7);
-        margin-top: 30px;
-      }
-      .player img {
-        height: 60px;
-        width: 60px;
-        border-radius: 8px;
-        margin-right: 20px;
-        object-fit: cover;
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
-      }
-      .player-info {
-        flex: 1;
-        color: #fff;
-        font-weight: 700;
-        font-size: 16px;
-      }
-      .player-controls {
-        display: flex;
-        gap: 18px;
-        align-items: center;
-      }
-      .player-controls button {
-        background: transparent;
-        border: 2px solid #1db954;
-        border-radius: 50%;
-        color: #1db954;
-        font-size: 18px;
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .player-controls button:hover {
-        background: rgba(29, 185, 84, 0.2);
-        transform: scale(1.1);
-      }
+/* Footer */
+footer {
+  text-align: center; padding: 10px 0;
+  font-size: 14px; color: #b3b3b3;
+  border-top: 1px solid #282828;
+  margin-top: auto;
+}
+</style>
+</head>
+<body>
 
-      footer {
-        height: 35px;
-        background: #1db954;
-        color: #000;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        box-shadow: 0 -2px 10px rgba(29, 185, 84, 0.8);
-        flex-shrink: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="content-wrapper">
-      <div class="sidebar">
-        <h2>Spotify</h2>
-        <button class="btn active" data-section="home">Início</button>
-        <button class="btn" data-section="library">Sua Biblioteca</button>
-        <button class="btn" data-section="liked">Músicas Curtidas</button>
-        <button class="btn" data-section="playlists">Playlists</button>
-      </div>
-      <main class="main">
-        <div class="main-header">
-          <h1 class="section-title">Artistas em alta</h1>
-          <div class="search-box">
-            <input type="text" placeholder="Buscar..." id="searchInput" />
-          </div>
-        </div>
-        <div class="artists-grid" id="artistsGrid"></div>
-        <section class="albums-section">
-          <h2 class="albums-title">Músicas</h2>
-          <div class="music-grid" id="musicGrid"></div>
-          <div class="player" id="player" style="display: none">
-            <img id="playerImage" src="" alt="Capa da música" />
-            <div class="player-info" id="playerInfo">
-              Nome da música - Artista
-            </div>
-            <div class="player-controls">
-              <button id="likeBtn" title="Curtir">
-                <i class="fa-regular fa-heart"></i>
-              </button>
-              <button id="addPlaylistBtn" title="Adicionar à playlist">
-                <i class="fa-regular fa-square-plus"></i>
-              </button>
-              <button id="playPauseBtn" title="Play/Pause">
-                <i class="fa-regular fa-circle-play"></i>
-              </button>
-            </div>
-            <audio id="audioPlayer"></audio>
-          </div>
-        </section>
-      </main>
-    </div>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Logo">
+    <h2>Spotify</h2>
+  </div>
+  <div class="nav-links">
+    <button class="btn active"><i class="fa-solid fa-house"></i> Início</button>
+    <a href="biblioteca.html" class="btn"><i class="fa-solid fa-book"></i> Sua Biblioteca</a>
+  </div>
+</div>
 
-    <footer>By Laisa & Belle - 2025</footer>
+<div class="main">
+  <h2 class="section-title">Artistas</h2>
+  <div id="artistsGrid" class="grid-artists"></div>
 
-    <script>
-      // URLs do backend
-      const backendPort = 5115;
-      const urls = {
-        urlListar: `http://localhost:${backendPort}/api/Musica/ListSongs`,
-        urlBuscarPorTitulo: (titulo) =>
-          `http://localhost:${backendPort}/api/Musica/GetMusicByTitle/${encodeURIComponent(
-            titulo
-          )}`,
-        urlBuscarPorArtista: (artista) =>
-          `http://localhost:${backendPort}/api/Musica/GetMusicByArtist/${encodeURIComponent(
-            artista
-          )}`,
-        urlTocar: (id) =>
-          `http://localhost:${backendPort}/api/Musica/PlayMusic/${id}`,
-        urlCapa: (id) =>
-          `http://localhost:${backendPort}/api/Musica/GetCover/${id}`,
-        urlListarArtistas: `http://localhost:${backendPort}/api/Musica/ListArtists`,
-        urlFotoArtista: (id) =>
-          `http://localhost:${backendPort}/api/Musica/GetPhoto/${id}`,
-      };
+  <h2 class="section-title">Músicas</h2>
+  <div id="musicGrid" class="grid-musics"></div>
+</div>
 
-      // Elementos DOM
-      const artistsGrid = document.getElementById("artistsGrid");
-      const musicGrid = document.getElementById("musicGrid");
-      const player = document.getElementById("player");
-      const audioPlayer = document.getElementById("audioPlayer");
-      const playerImage = document.getElementById("playerImage");
-      const playerInfo = document.getElementById("playerInfo");
-      const playPauseBtn = document.getElementById("playPauseBtn");
-      const searchInput = document.getElementById("searchInput");
-      const likeBtn = document.getElementById("likeBtn");
-      const addPlaylistBtn = document.getElementById("addPlaylistBtn");
+<div id="player">
+  <img id="playerImage" src="" alt="">
+  <div id="playerInfo"></div>
+  <div id="playerControls">
+    <button id="likeBtn"><i class="fa-regular fa-heart"></i></button>
+    <button id="playPauseBtn"><i class="fa-solid fa-circle-play"></i></button>
+  </div>
+  <div id="progressContainer">
+    <div id="progressBar"></div>
+  </div>
+  <audio id="audioPlayer"></audio>
+</div>
 
-      let allArtists = [];
-      let allMusics = [];
-      let currentMusic = null;
+<footer>Laisa & Belle - 2025</footer>
 
-      // Carregar artistas
-      async function carregarArtistas() {
-        try {
-          const res = await fetch(urls.urlListarArtistas);
-          if (!res.ok) throw new Error("Erro ao carregar artistas");
-          allArtists = await res.json();
-          renderArtists(allArtists);
-        } catch (error) {
-          artistsGrid.innerHTML = `<p style="color:#f00;">${error.message}</p>`;
-        }
-      }
+<script>
+const backendPort = 5115;
+const urls = {
+  urlListar: `http://localhost:${backendPort}/api/Musica/ListSongs`,
+  urlBuscarPorArtista: a => `http://localhost:${backendPort}/api/Musica/GetMusicByArtist/${encodeURIComponent(a)}`,
+  urlTocar: id => `http://localhost:${backendPort}/api/Musica/PlayMusic/${id}`,
+  urlCapa: id => `http://localhost:${backendPort}/api/Musica/GetCover/${id}`,
+  urlListarArtistas: `http://localhost:${backendPort}/api/Musica/ListArtists`,
+  urlFotoArtista: id => `http://localhost:${backendPort}/api/Musica/GetPhoto/${id}`
+};
 
-      // Renderizar artistas
-      function renderArtists(artists) {
-        artistsGrid.innerHTML = "";
-        artists.forEach((artista) => {
-          const card = document.createElement("div");
-          card.className = "artist-card";
+const artistsGrid = document.getElementById("artistsGrid");
+const musicGrid = document.getElementById("musicGrid");
+const player = document.getElementById("player");
+const audioPlayer = document.getElementById("audioPlayer");
+const playerImage = document.getElementById("playerImage");
+const playerInfo = document.getElementById("playerInfo");
+const playPauseBtn = document.getElementById("playPauseBtn");
+const likeBtn = document.getElementById("likeBtn");
+const progressBar = document.getElementById("progressBar");
+const progressContainer = document.getElementById("progressContainer");
 
-          // Se artista tem foto, usa, senão tenta pegar do backend
-          const imgSrc = artista.fotoUrl
-            ? artista.fotoUrl
-            : urls.urlFotoArtista(artista.id);
-          const img = document.createElement("img");
-          img.className = "artist-image";
-          img.src = imgSrc;
-          img.alt = artista.nome;
+let allArtists = [], allMusics = [], currentMusic = null;
 
-          const name = document.createElement("div");
-          name.className = "artist-name";
-          name.textContent = artista.nome;
+async function carregarArtistas(){
+  const res = await fetch(urls.urlListarArtistas);
+  allArtists = await res.json();
+  renderArtists(allArtists);
+}
 
-          card.appendChild(img);
-          card.appendChild(name);
+function renderArtists(artists){
+  artistsGrid.innerHTML="";
+  artists.forEach(a=>{
+    const card = document.createElement("div");
+    card.className="artist-card";
+    const img = document.createElement("img");
+    img.className="artist-image";
+    img.src=urls.urlFotoArtista(a.id);
+    img.alt=a.nome;
+    const name = document.createElement("div");
+    name.className="artist-name";
+    name.textContent=a.nome;
+    card.appendChild(img);
+    card.appendChild(name);
+    card.addEventListener("click",()=>filtrarPorArtista(a.nome));
+    artistsGrid.appendChild(card);
+  });
+}
 
-          // Clique no artista filtra músicas do artista
-          card.addEventListener("click", () => {
-            filtrarPorArtista(artista.nome);
-          });
+async function carregarMusicas(){
+  const res=await fetch(urls.urlListar);
+  allMusics=await res.json();
+  renderMusics(allMusics);
+}
 
-          artistsGrid.appendChild(card);
-        });
-      }
+function renderMusics(musicas){
+  musicGrid.innerHTML="";
+  musicas.forEach(m=>{
+    const card = document.createElement("div");
+    card.className="music-card";
+    const img = document.createElement("img");
+    img.className="music-image";
+    img.src=urls.urlCapa(m.id);
+    img.alt=m.titulo;
+    const name = document.createElement("div");
+    name.className="music-name";
+    name.textContent=m.titulo;
+    const actions = document.createElement("div");
+    actions.className="music-actions";
+    const btnLike = document.createElement("button");
+    btnLike.innerHTML='<i class="fa-regular fa-heart"></i>';
+    btnLike.addEventListener("click", e=>{
+      e.stopPropagation();
+      toggleLike(m, btnLike);
+    });
+    actions.appendChild(btnLike);
+    card.appendChild(img);
+    card.appendChild(name);
+    card.appendChild(actions);
+    card.addEventListener("click",()=>tocarMusica(m));
+    musicGrid.appendChild(card);
+  });
+}
 
-      // Carregar músicas (lista completa)
-      async function carregarMusicas() {
-        try {
-          const res = await fetch(urls.urlListar);
-          if (!res.ok) throw new Error("Erro ao carregar músicas");
-          allMusics = await res.json();
-          renderMusics(allMusics);
-        } catch (error) {
-          musicGrid.innerHTML = `<p style="color:#f00;">${error.message}</p>`;
-        }
-      }
+function toggleLike(musica, btn){
+  let curtidas=JSON.parse(localStorage.getItem("curtidas")||"[]");
+  const idx=curtidas.findIndex(x=>x.id==musica.id);
+  if(idx===-1) curtidas.push({id:musica.id,titulo:musica.titulo,artista:musica.artista});
+  else curtidas.splice(idx,1);
+  localStorage.setItem("curtidas",JSON.stringify(curtidas));
+  atualizarIconeLikeById(btn,musica.id);
+}
 
-      // Renderizar músicas
-      function renderMusics(musicas) {
-        musicGrid.innerHTML = "";
-        musicas.forEach((musica) => {
-          const card = document.createElement("div");
-          card.className = "music-card";
+function atualizarIconeLikeById(btn,musicaId){
+  const icon=btn.querySelector("i");
+  const curtidas=JSON.parse(localStorage.getItem("curtidas")||"[]");
+  const curtiu=curtidas.some(m=>m.id==musicaId);
+  if(curtiu){icon.classList.replace("fa-regular","fa-solid");icon.style.color="#1DB954";}
+  else{icon.classList.replace("fa-solid","fa-regular");icon.style.color="#b3b3b3";}
+}
 
-          const img = document.createElement("img");
-          img.className = "music-image";
-          img.src = urls.urlCapa(musica.id);
-          img.alt = musica.titulo;
+function tocarMusica(m){
+  currentMusic=m;
+  player.style.display="flex";
+  playerImage.src=urls.urlCapa(m.id);
+  playerInfo.textContent=`${m.titulo} - ${m.artista}`;
+  audioPlayer.src=urls.urlTocar(m.id);
+  audioPlayer.play();
+  playPauseBtn.innerHTML='<i class="fa-solid fa-circle-pause"></i>';
+  atualizarIconeLikeById(likeBtn,m.id);
+}
 
-          const name = document.createElement("div");
-          name.className = "music-name";
-          name.textContent = musica.titulo;
+likeBtn.addEventListener("click",()=>{if(currentMusic) toggleLike(currentMusic,likeBtn);});
+playPauseBtn.addEventListener("click",()=>{
+  if(!currentMusic) return;
+  if(audioPlayer.paused){audioPlayer.play();playPauseBtn.innerHTML='<i class="fa-solid fa-circle-pause"></i>';}
+  else{audioPlayer.pause();playPauseBtn.innerHTML='<i class="fa-solid fa-circle-play"></i>';}
+});
 
-          const actions = document.createElement("div");
-          actions.className = "music-actions";
+audioPlayer.addEventListener('timeupdate', () => {
+  const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+  progressBar.style.width = percent + '%';
+});
+progressContainer.addEventListener('click', e => {
+  const rect = progressContainer.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const percent = x / rect.width;
+  audioPlayer.currentTime = percent * audioPlayer.duration;
+});
 
-          // Botão curtir (simples toggle de ícone)
-          const btnLike = document.createElement("button");
-          btnLike.innerHTML = '<i class="fa-regular fa-heart"></i>';
-          btnLike.title = "Curtir";
-          btnLike.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleLike(btnLike);
-          });
+async function filtrarPorArtista(nome){
+  const res=await fetch(urls.urlBuscarPorArtista(nome));
+  const musics=await res.json();
+  renderMusics(musics);
+}
 
-          // Botão adicionar playlist (sem função real, só ícone)
-          const btnAddPlaylist = document.createElement("button");
-          btnAddPlaylist.innerHTML =
-            '<i class="fa-regular fa-square-plus"></i>';
-          btnAddPlaylist.title = "Adicionar à playlist";
-          btnAddPlaylist.addEventListener("click", (e) => {
-            e.stopPropagation();
-            alert(
-              `Adicionar "${musica.titulo}" à playlist ainda não implementado.`
-            );
-          });
-
-          actions.appendChild(btnLike);
-          actions.appendChild(btnAddPlaylist);
-
-          card.appendChild(img);
-          card.appendChild(name);
-          card.appendChild(actions);
-
-          // Clique na música toca ela
-          card.addEventListener("click", () => {
-            tocarMusica(musica);
-          });
-
-          musicGrid.appendChild(card);
-        });
-      }
-
-      // Função toggle curtir (troca o ícone)
-      function toggleLike(btn) {
-        const icon = btn.querySelector("i");
-        if (icon.classList.contains("fa-regular")) {
-          icon.classList.remove("fa-regular");
-          icon.classList.add("fa-solid");
-          icon.style.color = "#1DB954";
-        } else {
-          icon.classList.remove("fa-solid");
-          icon.classList.add("fa-regular");
-          icon.style.color = "";
-        }
-      }
-
-      // Tocar música no player
-      function tocarMusica(musica) {
-        currentMusic = musica;
-        player.style.display = "flex";
-        playerImage.src = urls.urlCapa(musica.id);
-        playerInfo.textContent = `${musica.titulo} - ${musica.artista}`;
-        audioPlayer.src = urls.urlTocar(musica.id);
-        audioPlayer.play();
-        playPauseBtn.innerHTML = '<i class="fa-regular fa-circle-pause"></i>';
-      }
-
-      // Play/pause no botão
-      playPauseBtn.addEventListener("click", () => {
-        if (!currentMusic) return;
-        if (audioPlayer.paused) {
-          audioPlayer.play();
-          playPauseBtn.innerHTML = '<i class="fa-regular fa-circle-pause"></i>';
-        } else {
-          audioPlayer.pause();
-          playPauseBtn.innerHTML = '<i class="fa-regular fa-circle-play"></i>';
-        }
-      });
-
-      // Busca ao digitar (debounce simples)
-      let searchTimeout;
-      searchInput.addEventListener("input", () => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-          const termo = searchInput.value.trim();
-          if (termo.length === 0) {
-            renderMusics(allMusics);
-            return;
-          }
-          buscarMusicas(termo);
-        }, 500);
-      });
-
-      // Buscar músicas por título e artista, combinando resultados
-      async function buscarMusicas(termo) {
-        try {
-          // Busca por título
-          const resTitulo = await fetch(urls.urlBuscarPorTitulo(termo));
-          if (!resTitulo.ok) throw new Error("Erro na busca por título");
-          const musicsTitulo = await resTitulo.json();
-
-          // Busca por artista
-          const resArtista = await fetch(urls.urlBuscarPorArtista(termo));
-          if (!resArtista.ok) throw new Error("Erro na busca por artista");
-          const musicsArtista = await resArtista.json();
-
-          // Combinar resultados (evitar duplicados)
-          const combined = [...musicsTitulo];
-          musicsArtista.forEach((m) => {
-            if (!combined.find((x) => x.id === m.id)) combined.push(m);
-          });
-
-          renderMusics(combined);
-        } catch (error) {
-          musicGrid.innerHTML = `<p style="color:#f00;">${error.message}</p>`;
-        }
-      }
-
-      // Filtrar músicas por artista clicado
-      async function filtrarPorArtista(nomeArtista) {
-        try {
-          const res = await fetch(urls.urlBuscarPorArtista(nomeArtista));
-          if (!res.ok) throw new Error("Erro ao filtrar por artista");
-          const musics = await res.json();
-          renderMusics(musics);
-        } catch (error) {
-          musicGrid.innerHTML = `<p style="color:#f00;">${error.message}</p>`;
-        }
-      }
-
-      // Iniciar app: carregar artistas e músicas
-      async function iniciar() {
-        await carregarArtistas();
-        await carregarMusicas();
-      }
-
-      iniciar();
-    </script>
-  </body>
+async function iniciar(){ await carregarArtistas(); await carregarMusicas(); }
+iniciar();
+</script>
+</body>
 </html>

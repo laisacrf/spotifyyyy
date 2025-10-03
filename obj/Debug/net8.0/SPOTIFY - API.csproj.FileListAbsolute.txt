@@ -166,3 +166,4 @@ C:\Users\430465624\Documents\SPOTIFY - API\obj\Debug\net8.0\refint\SPOTIFY - API
 C:\Users\430465624\Documents\SPOTIFY - API\obj\Debug\net8.0\SPOTIFY - API.pdb
 C:\Users\430465624\Documents\SPOTIFY - API\obj\Debug\net8.0\SPOTIFY - API.genruntimeconfig.cache
 C:\Users\430465624\Documents\SPOTIFY - API\obj\Debug\net8.0\ref\SPOTIFY - API.dll
+C:\Users\430465624\Documents\SPOTIFY - API\obj\Debug\net8.0\SPOTIFY - API.sourcelink.json
