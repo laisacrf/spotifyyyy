@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SPOTIFY - API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88255af6f0a6e83cff996c69e03f0889726ffceb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+090ed0243a2c8d90bc0e1b0d42a653606df4106b")]
 [assembly: System.Reflection.AssemblyProductAttribute("SPOTIFY - API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SPOTIFY - API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
